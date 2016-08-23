@@ -1,0 +1,23 @@
+{
+    "name": "sangio90/calcolo-rendimento-btp",
+    "description": "Un semplice calcolatore del rendimento netto di titoli di stato",
+    "authors": [
+        {
+            "name": "sangio90",
+            "email": "sangiovanni.guido@gmail.com"
+        }
+    ],
+    "require": {
+        "silex/silex": "^2.0",
+        "twig/twig": "^1.24"
+    },
+    "autoload": {
+        "psr-0": {
+            "CalcoloRendimentoBtp": "src",
+            "Tests": "test"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.5"
+    }
+}

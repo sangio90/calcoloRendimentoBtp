@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="underscore-min.js"></script>
+    <script type="text/javascript" src="bootstrap.min.js"></script>
+    <script type="text/javascript" src="backbone-min.js"></script>
+    <link rel="stylesheet" href="bootstrap.min.css"/>
+    <title>Sangio90 - Calcola Rendimento BTP</title>
+</head>
+<body>
+<ul id="navigation">
+</ul>
+<div class="col-lg-1"></div>
+<div class="col-xs-12 col-lg-5 container">
+    <h1 class="text-center">Calcola Rendimento BTP</h1>
+    <form id="FilterForm">
+            <div class="form-group">
+                <label for="capitale">Capitale</label>
+                <input type="text" class="form-control text-right" id="capitale"/>
+            </div>
+            <div class="form-group">
+                <label for="cedola">Cedola</label>
+                <input type="text" class="form-control text-right" id="cedola"/>
+            </div>
+            <div class="form-group">
+                <label for="costo">Costo</label>
+                <input type="text" class="form-control text-right" id="costo"/>
+            </div>
+            <div class="form-group">
+                <label for="scadenza">Data Scadenza</label>
+                <input type="date" class="form-control text-right" id="scadenza"/>
+            </div>
+            <div class="form-group">
+                <button class="form-control btn btn-success" id="submit">Calcola</button>
+            </div>
+    </form>
+</div>
+<div class="col-xs-12 col-lg-5 container">
+    <h1 class="text-center">Risultati</h1>
+    <form id="FilterForm">
+        <div class="form-group">
+            <label for="residuo">Residuo</label>
+            <input type="text" class="form-control text-right" id="residuo" disabled="disabled" placeholder="0.00"/>
+        </div>
+        <div class="form-group">
+            <label for="nettoAnnuale">Interesse Netto Annuo</label>
+            <input type="text" class="form-control text-right" id="nettoAnnuale" disabled="disabled" placeholder="0.00"/>
+        </div>
+        <div class="form-group">
+            <label for="nettoPercentuale">Interesse Netto Percentuale</label>
+            <input type="text" class="form-control text-right" id="nettoPercentuale" disabled="disabled" placeholder="0.00"/>
+        </div>
+    </form>
+</div>
+<div class="col-lg-1"></div>
+
+<script type="text/javascript">
+$(function(){
+    $('#submit').on('click', function(e) {
+
+        e.preventDefault();
+
+        var capitale = $('#capitale').val();
+        var cedola = $('#cedola').val();
+        var costo = $('#costo').val();
+        var scadenza = $('#scadenza').val();
+
+        if (!(!capitale || !cedola || !costo || !scadenza)) {
+            Backbone.ajax({
+                url: '/read',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    capitale: capitale,
+                    cedola: cedola,
+                    costo: costo,
+                    scadenza: scadenza
+                },
+                success: function (response) {
+                    var residuo = response.residuo;
+                    var nettoAnnuale = response.nettoAnnuale;
+                    var nettoPercentuale = response.nettoPercentuale;
+
+                    $('#residuo').val(residuo);
+                    $('#nettoAnnuale').val(nettoAnnuale);
+                    $('#nettoPercentuale').val(nettoPercentuale);
+                }
+            });
+        } else {
+            alert('Compilare tutti i campi.');
+        }
+    });
+});
+</script>
+</body>
+</html>
